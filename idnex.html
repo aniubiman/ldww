@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨提示</title>
+    <style>
+        /* 隐藏页面默认滚动条 */
+        body {
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+        }
+        /* 弹窗样式 */
+        .tip-box {
+            position: absolute;
+            width: 250px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: "微软雅黑", sans-serif;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer; /* 点击也能关闭 */
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 提示语列表
+        const tips = [
+             "我是你爹", "好大儿陈雨",
+            "嘿嘿", "二比陈雨", "成语",
+            
+        ];
+
+        // 背景色列表（更多柔和颜色）
+        const bgColors = [
+            'lightpink', 'skyblue', 'lightgreen', 'lavender', 'lightyellow',
+            'powderblue', 'mistyrose', 'lightcoral', 'palegreen', 'lightblue',
+            'honeydew', 'mintcream', 'aliceblue', 'antiquewhite', 'bisque',
+            'blanchedalmond', 'cornsilk', 'floralwhite', 'gainsboro', 'ghostwhite',
+            'ivory', 'lavenderblush', 'lemonchiffon', 'lightcyan', 'lightgoldenrodyellow'
+        ];
+
+        // 创建弹窗函数
+        function createTipBox() {
+            // 创建弹窗元素
+            const box = document.createElement('div');
+            box.className = 'tip-box';
+            
+            // 随机内容和样式
+            box.innerText = tips[Math.floor(Math.random() * tips.length)];
+            box.style.backgroundColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+            
+            // 随机位置（避免超出屏幕）
+            const maxX = window.innerWidth - 280; // 减去宽度和内边距
+            const maxY = window.innerHeight - 100;
+            box.style.left = `${Math.floor(Math.random() * maxX)}px`;
+            box.style.top = `${Math.floor(Math.random() * maxY)}px`;
+            
+            // 添加到页面
+            document.body.appendChild(box);
+            
+            // 点击关闭
+            box.onclick = () => box.remove();
+            
+            // 3秒后自动关闭
+            setTimeout(() => box.remove(), 3000);
+        }
+
+        // 监听空格键关闭所有弹窗
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                document.querySelectorAll('.tip-box').forEach(box => box.remove());
+            }
+        });
+
+        // 批量创建弹窗（50个，间隔0.1秒）
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createTipBox, i * 100); // 每个间隔100ms
+        }
+    </script>
+</body>
+</html>
